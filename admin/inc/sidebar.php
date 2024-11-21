@@ -118,7 +118,7 @@
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a href="../views/user.php" class="menu-link">
+                        <a href="../views/laporan.php" class="menu-link">
                             <div data-i18n="Account">Laporan</div>
                         </a>
                     </li>
