@@ -5,11 +5,11 @@ include '../config/db.php';
 $dataTransaksi = mysqli_query($connection, "SELECT customer.customer_name, transaksi.* FROM transaksi LEFT JOIN customer ON customer.id = transaksi.id_customer ORDER BY id DESC");
 
 // get data detail transaksi
-$id = isset($_GET['detail']) ? $_GET['detail'] : '';
-$queryDetailTrans = mysqli_query($connection, "SELECT customer.customer_name, type_of_service.service_name, transaksi.order_code, transaksi.order_date, detail_transaksi.* FROM detail_transaksi LEFT JOIN transaksi ON transaksi.id = detail_transaksi.id_order LEFT JOIN type_of_service ON type_of_service.id = detail_transaksi.id_service LEFT JOIN customer ON customer.id = transaksi.id_customer WHERE transaksi.id = '$id'");
+$idDetail = isset($_GET['detail']) ? $_GET['detail'] : '';
+$queryDetailTrans = mysqli_query($connection, "SELECT customer.customer_name, type_of_service.service_name, transaksi.order_code, transaksi.order_date, detail_transaksi.* FROM detail_transaksi LEFT JOIN transaksi ON transaksi.id = detail_transaksi.id_order LEFT JOIN type_of_service ON type_of_service.id = detail_transaksi.id_service LEFT JOIN customer ON customer.id = transaksi.id_customer WHERE transaksi.id = '$idDetail'");
 
 // get data paket detail
-$queryPaketDetail = mysqli_query($connection, "SELECT customer.customer_name, customer.phone, customer.address, transaksi.order_code, transaksi.order_date, transaksi.order_status, type_of_service.service_name, type_of_service.price, detail_transaksi.* FROM detail_transaksi LEFT JOIN type_of_service ON detail_transaksi.id_service = type_of_service.id LEFT JOIN transaksi ON transaksi.id = detail_transaksi.id_order LEFT JOIN customer ON customer.id = transaksi.id_customer WHERE detail_transaksi.id_order = '$id'");
+$queryPaketDetail = mysqli_query($connection, "SELECT customer.customer_name, customer.phone, customer.address, transaksi.order_code, transaksi.order_date, transaksi.order_status, type_of_service.service_name, type_of_service.price, detail_transaksi.* FROM detail_transaksi LEFT JOIN type_of_service ON detail_transaksi.id_service = type_of_service.id LEFT JOIN transaksi ON transaksi.id = detail_transaksi.id_order LEFT JOIN customer ON customer.id = transaksi.id_customer WHERE detail_transaksi.id_order = '$idDetail'");
 // $rowPaketDetail = mysqli_fetch_assoc($queryPaketDetail);
 $row = [];
 while ($dataDetailTrans = mysqli_fetch_assoc($queryPaketDetail)) {
@@ -40,7 +40,7 @@ if (mysqli_num_rows($queryInvoice) > 0) {
 // simpan
 if (isset($_POST['simpan'])) {
     $id_customer = $_POST['id_customer'];
-    $order_date = $_POST['order_date'];
+    $order_date = date('Y-m-d');
     $order_code = $_POST['order_code'];
 
     // insert ke table trans-order
@@ -89,3 +89,20 @@ try {
 } catch (\Throwable $th) {
     throw $th;
 }
+
+// pengambilan cucian
+$idAmbil = isset($_GET['pickup']) ? $_GET['pickup'] : '';
+$queryPickup = mysqli_query($connection, "SELECT customer.customer_name, type_of_service.service_name, transaksi.order_code, transaksi.order_date, detail_transaksi.* FROM detail_transaksi LEFT JOIN transaksi ON transaksi.id = detail_transaksi.id_order LEFT JOIN type_of_service ON type_of_service.id = detail_transaksi.id_service LEFT JOIN customer ON customer.id = transaksi.id_customer WHERE transaksi.id = '$idAmbil'");
+
+$queryPaketDetail = mysqli_query($connection, "SELECT customer.customer_name, customer.phone, customer.address, transaksi.order_code, transaksi.order_date, transaksi.order_status, transaksi.id_customer, type_of_service.service_name, type_of_service.price, detail_transaksi.* FROM detail_transaksi LEFT JOIN type_of_service ON detail_transaksi.id_service = type_of_service.id LEFT JOIN transaksi ON transaksi.id = detail_transaksi.id_order LEFT JOIN customer ON customer.id = transaksi.id_customer WHERE detail_transaksi.id_order = '$idAmbil'");
+// $rowPaketDetail = mysqli_fetch_assoc($queryPaketDetail);
+// echo "<pre>";
+// print_r($rowPaketDetail);
+// die;
+$rowPickup = [];
+while ($dataPickup = mysqli_fetch_assoc($queryPaketDetail)) {
+    $rowPickup[] = $dataPickup;
+}
+
+// validasi input harga
+$sqlTransPick = mysqli_query($connection, "SELECT * FROM trans_laundry_pickup WHERE id_order = '$idAmbil'");

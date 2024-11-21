@@ -48,7 +48,26 @@ include '../controller/action_service.php';
                     <?php if (isset($_GET['detail'])) : ?>
                         <div class="container-xxl flex-grow-1 container-p-y">
                             <div class="row">
-                                <div class="col-sm-12 mb-3"></div>
+                                <div class="col-sm-12 mb-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <h5>Transaksi Laundry <?= $row[0]['customer_name'] ?></h5>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="list d-flex justify-content-end gap-4">
+                                                        <a href="transaksi.php" class="btn btn-info">Kembali</a>
+                                                        <a target="_blank" href="print.php?id=<?= $idDetail ?>" class="btn btn-warning">Print</a>
+                                                        <?php if ($row[0]['order_status'] == 0) : ?>
+                                                            <a href="add-transaksi-pickup.php?pickup=<?= $idDetail ?>" class="btn btn-success">Ambil Cucian</a>
+                                                        <?php endif ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-sm-6">
                                     <div class="card">
                                         <div class="card-header">
@@ -122,6 +141,7 @@ include '../controller/action_service.php';
                                                         <th>No</th>
                                                         <th>Nama Paket</th>
                                                         <th>Harga</th>
+                                                        <th>Qty</th>
                                                         <th>Subtotal</th>
                                                     </thead>
                                                     <tbody>
@@ -132,6 +152,7 @@ include '../controller/action_service.php';
                                                                 <td><?= $no++ ?></td>
                                                                 <td><?= $value['service_name'] ?></td>
                                                                 <td><?= $value['price'] ?></td>
+                                                                <td><?= $value['qty'] ?></td>
                                                                 <td><?= $value['subtotal'] ?></td>
                                                             </tr>
                                                         <?php endforeach ?>
