@@ -59,6 +59,8 @@ if (isset($_POST['login'])) {
             $_SESSION['name'] = $rowLogin['name'];
             $_SESSION['id'] = $rowLogin['id'];
             $_SESSION['id_level'] = $rowLogin['id_level'];
+            // print_r($_SESSION);
+            // die;
             header('location: ../views/dashboard.php?login-email-success');
         } else {
             header('location: ../index.php?login-failed');

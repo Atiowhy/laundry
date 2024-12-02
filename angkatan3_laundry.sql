@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 20, 2024 at 09:49 AM
+-- Generation Time: Dec 02, 2024 at 01:41 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,7 +41,9 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`id`, `customer_name`, `phone`, `address`, `created_at`, `updated_at`) VALUES
-(2, 'customer 1', '081281484150', 'customer 1 baru daftar', '2024-11-15 02:08:47', '2024-11-15 02:08:47');
+(2, 'customer 12', '35683567', 'jl.customer2453', '2024-11-15 02:08:47', '2024-12-02 07:59:43'),
+(3, 'customer 12', '35683567', 'jl.customer2453', '2024-11-21 04:32:36', '2024-12-02 07:59:43'),
+(4, 'customer 1246', '35683567', 'jl.customer2453', '2024-12-02 03:19:38', '2024-12-02 08:00:36');
 
 -- --------------------------------------------------------
 
@@ -65,10 +67,10 @@ CREATE TABLE `detail_transaksi` (
 --
 
 INSERT INTO `detail_transaksi` (`id`, `id_order`, `id_service`, `qty`, `subtotal`, `notes`, `created_at`, `update_at`) VALUES
-(16, 13, 5, 2, 14000, '', '2024-11-20 04:28:53', '2024-11-20 04:28:53'),
-(17, 13, 4, 2, 12000, '', '2024-11-20 04:28:53', '2024-11-20 04:28:53'),
-(18, 14, 4, 2, 12000, '', '2024-11-20 08:22:24', '2024-11-20 08:22:24'),
-(19, 14, 5, 3, 21000, '', '2024-11-20 08:22:24', '2024-11-20 08:22:24');
+(51, 37, 4, 2, 12000, '', '2024-12-02 08:01:38', '2024-12-02 08:01:38'),
+(52, 37, 5, 2, 14000, '', '2024-12-02 08:01:38', '2024-12-02 08:01:38'),
+(53, 38, 5, 3, 21000, '', '2024-12-02 08:02:11', '2024-12-02 08:02:11'),
+(54, 39, 3, 2, 10000, '', '2024-12-02 12:33:03', '2024-12-02 12:33:03');
 
 -- --------------------------------------------------------
 
@@ -103,18 +105,50 @@ CREATE TABLE `transaksi` (
   `id_customer` int(11) NOT NULL,
   `order_code` varchar(100) NOT NULL,
   `order_date` date NOT NULL,
+  `order_end_date` date NOT NULL,
   `order_status` tinyint(4) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `total` int(11) NOT NULL,
+  `pickup_pay` int(11) NOT NULL,
+  `pickup_change` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `transaksi`
 --
 
-INSERT INTO `transaksi` (`id`, `id_customer`, `order_code`, `order_date`, `order_status`, `created_at`, `updated_at`) VALUES
-(13, 2, 'INV/201124/000/1', '2024-11-13', 0, '2024-11-20 04:28:53', '2024-11-20 04:28:53'),
-(14, 2, 'INV/201124/000/14', '2024-11-15', 0, '2024-11-20 08:22:24', '2024-11-20 08:22:24');
+INSERT INTO `transaksi` (`id`, `id_customer`, `order_code`, `order_date`, `order_end_date`, `order_status`, `created_at`, `updated_at`, `total`, `pickup_pay`, `pickup_change`) VALUES
+(37, 4, 'INV/021224/000/1', '2024-12-02', '2024-12-09', 1, '2024-12-02 08:01:38', '2024-12-02 08:01:46', 26000, 30000, 4000),
+(38, 3, 'INV/021224/000/38', '2024-12-03', '2024-12-16', 0, '2024-12-02 08:02:11', '2024-12-02 08:02:11', 21000, 25000, 4000),
+(39, 4, 'INV/021224/000/39', '2024-12-11', '2024-12-09', 0, '2024-12-02 12:33:03', '2024-12-02 12:33:03', 10000, 15000, 5000);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `trans_laundry_pickup`
+--
+
+CREATE TABLE `trans_laundry_pickup` (
+  `id` int(11) NOT NULL,
+  `id_order` int(11) NOT NULL,
+  `id_customer` int(11) NOT NULL,
+  `pickup_date` date NOT NULL,
+  `note` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `trans_laundry_pickup`
+--
+
+INSERT INTO `trans_laundry_pickup` (`id`, `id_order`, `id_customer`, `pickup_date`, `note`, `created_at`, `updated_at`) VALUES
+(17, 36, 3, '2024-12-02', '', '2024-12-02 07:56:21', '2024-12-02 07:56:21'),
+(18, 37, 4, '2024-12-02', '', '2024-12-02 08:01:46', '2024-12-02 08:01:46'),
+(19, 37, 4, '2024-12-02', '', '2024-12-02 12:32:14', '2024-12-02 12:32:14'),
+(20, 37, 4, '2024-12-02', '', '2024-12-02 12:32:43', '2024-12-02 12:32:43'),
+(21, 37, 4, '2024-12-02', '', '2024-12-02 12:33:08', '2024-12-02 12:33:08');
 
 -- --------------------------------------------------------
 
@@ -162,7 +196,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `id_level`, `name`, `email`, `password`, `created_at`, `updated_at`) VALUES
-(5, 1, 'Admin123', 'admin@gmail.com', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '2024-11-13 07:02:56', '2024-11-14 06:25:04'),
+(5, 1, 'Admin1234', 'admin@gmail.com', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '2024-11-13 07:02:56', '2024-12-02 07:57:24'),
 (6, 2, 'operator', 'operator@gmail.com', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '2024-11-13 08:12:08', '2024-11-13 08:12:08'),
 (8, 2, 'atio123', 'atio@gmail.com', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '2024-11-14 04:54:14', '2024-11-14 06:32:20');
 
@@ -197,6 +231,12 @@ ALTER TABLE `transaksi`
   ADD KEY `id_customer` (`id_customer`);
 
 --
+-- Indexes for table `trans_laundry_pickup`
+--
+ALTER TABLE `trans_laundry_pickup`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `type_of_service`
 --
 ALTER TABLE `type_of_service`
@@ -217,13 +257,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `level`
@@ -235,13 +275,19 @@ ALTER TABLE `level`
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
+--
+-- AUTO_INCREMENT for table `trans_laundry_pickup`
+--
+ALTER TABLE `trans_laundry_pickup`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `type_of_service`
 --
 ALTER TABLE `type_of_service`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`
