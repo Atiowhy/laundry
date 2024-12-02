@@ -35,7 +35,7 @@ try {
         $phone = $_POST['phone'];
         $address = $_POST['address'];
 
-        $queryEdit = mysqli_query($connection, "UPDATE customer SET customer_name = '$nama_customer', phone = '$phone', address = '$address'");
+        $queryEdit = mysqli_query($connection, "UPDATE customer SET customer_name = '$nama_customer', phone = '$phone', address = '$address' WHERE id = '$id'");
 
         if ($queryEdit) {
             header('location: ../views/customer.php?edit-success');

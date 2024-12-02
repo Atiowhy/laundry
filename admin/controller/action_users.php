@@ -45,7 +45,7 @@ try {
 }
 
 // updateUsers
-$id = isset($_GET['edit']) ? $_GET['edit'] : '';
+$idEdit = isset($_GET['edit']) ? $_GET['edit'] : '';
 $dataUserId = mysqli_query($connection, "SELECT users.*, level.nama_level FROM users LEFT JOIN level ON users.id_level = level.id WHERE users.id = '$id'");
 $resultDataUser = mysqli_fetch_assoc($dataUserId);
 
@@ -56,7 +56,7 @@ try {
         $name = $_POST['name'];
         $email = $_POST['email'];
         if (empty($resultDataUser['id_level'])) {
-            $sqlUpdate = mysqli_query($connection, "UPDATE users SET id_level = '$id_level', name = '$name', email = '$email' WHERE id = '$id'");
+            $sqlUpdate = mysqli_query($connection, "UPDATE users SET id_level = '$id_level', name = '$name', email = '$email' WHERE id = '$idEdit'");
 
             if ($sqlUpdate) {
                 header('location: ../views/user.php?update-success');
@@ -64,7 +64,7 @@ try {
                 header('location: ../views/user.php?update-failed');
             }
         } else {
-            $sqlUpdate = mysqli_query($connection, "UPDATE users SET  name = '$name', email = '$email' WHERE id = '$id'");
+            $sqlUpdate = mysqli_query($connection, "UPDATE users SET  name = '$name', email = '$email' WHERE id = '$idEdit'");
             if ($sqlUpdate) {
                 header('location: ../views/user.php?update-success');
             } else {

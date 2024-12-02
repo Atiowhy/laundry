@@ -1,6 +1,12 @@
 <?php
 session_start();
 include '../controller/action_transaksi.php';
+include '../config/db.php';
+$dataTransaksiPengembalian = mysqli_query($connection, "SELECT customer.customer_name, transaksi.* FROM transaksi LEFT JOIN customer ON customer.id = transaksi.id_customer ORDER BY id DESC");
+$dataKembali = mysqli_fetch_assoc($dataTransaksiPengembalian);
+// $idKembali = $dataKembali['order_status'];
+// print_r($idKembali);
+// die;
 ?>
 
 <!DOCTYPE html>

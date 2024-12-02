@@ -107,11 +107,7 @@
                             <div data-i18n="Account">Transaksi</div>
                         </a>
                     </li>
-                    <li class="menu-item">
-                        <a href="../views/user.php" class="menu-link">
-                            <div data-i18n="Account">Data Transaksi</div>
-                        </a>
-                    </li>
+
                     <li class="menu-item">
                         <a href="../views/transaksi-pengembalian.php" class="menu-link">
                             <div data-i18n="Account">Transaksi Pengembalian</div>
